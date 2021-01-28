@@ -1,0 +1,6 @@
+<div class="p-d-flex p-flex-column p-align-center">
+  <h2>Joined Players</h2>
+  <p *ngFor="let player of game.players">{{player}}</p>
+  <p-button label="leave" (onClick)="leave()"></p-button>
+  <p-button class="p-mt-2" label="start" *ngIf="game.hostName === authService.getUsername()" (onClick)="start()"></p-button>
+</div>

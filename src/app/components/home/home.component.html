@@ -1,0 +1,12 @@
+<div class="p-d-flex p-flex-column">
+  <div class="p-d-flex p-jc-end">
+    <p-button class="p-mt-4 p-mr-4" label="logout" (onClick)="logout()"></p-button>
+  </div>
+  <form [formGroup]="joinGameForm" class="p-d-flex p-jc-center p-m-2">
+    <input class="p-mr-1" pInputText placeholder="invite code" formControlName="inviteCode">
+    <p-button label="join" (onClick)="joinGame()"></p-button>
+  </form>
+  <div class="p-d-flex p-jc-center">
+    <p-button label="create game" (onClick)="createGame()"></p-button>
+  </div>
+</div>

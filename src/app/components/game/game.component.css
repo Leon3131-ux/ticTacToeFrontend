@@ -1,0 +1,14 @@
+.cell{
+  border: 1px solid honeydew;
+  height: 20vh;
+  width: 20vh;
+  background-color: #757877;
+}
+:host{
+  display: inline-block;
+  height: 100vh;
+  width: 100vw;
+}
+.container{
+  height: 100vh;
+}
