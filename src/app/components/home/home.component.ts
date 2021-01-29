@@ -4,6 +4,7 @@ import {Router} from '@angular/router';
 import {FormControl, FormGroup} from '@angular/forms';
 import {DoNothingErrorHandler} from '../../errorHandler/do-nothing-error-handler';
 import {AuthService} from '../../services/auth.service';
+import {WebsocketService} from '../../services/websocket.service';
 
 @Component({
   selector: 'app-home',

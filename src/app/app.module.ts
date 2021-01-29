@@ -27,7 +27,6 @@ import {DoNothingErrorHandler} from './errorHandler/do-nothing-error-handler';
 import {ToastModule} from 'primeng/toast';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {LoggedInGuard} from './guards/logged-in.guard';
-import { SignupComponent } from './signup/signup.component';
 
 const appRoutes: Routes = [
   {path: 'login', component: LoginComponent},
@@ -40,7 +39,6 @@ const appRoutes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
-    SignupComponent,
   ],
   imports: [
     BrowserModule,

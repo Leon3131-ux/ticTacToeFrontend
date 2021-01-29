@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Observable, Subject} from 'rxjs';
-import {Stomp} from '@stomp/stompjs';
+import {Stomp, StompSubscription} from '@stomp/stompjs';
 import * as SockJS from 'sockjs-client';
 import {environment} from '../../environments/environment';
 import {AuthService} from './auth.service';
@@ -16,13 +16,15 @@ export class WebsocketService{
   connecting = false;
   connectingSubject = new Subject();
   connected = false;
+  subscriptions: StompSubscription[] = [];
 
   public subscribe(path: string): Observable<any>{
     return new Observable(observer => {
       this.checkConnection().subscribe(() => {
-        this.client.subscribe(path, message => {
+        let subscription = this.client.subscribe(path, message => {
           observer.next(JSON.parse(message.body));
         });
+        this.subscriptions.push(subscription);
       })
     })
   }
@@ -49,6 +51,13 @@ export class WebsocketService{
 
   public send(path: string, object: any){
     this.client.send(path,{}, JSON.stringify(object));
+  }
+
+  public unsubscribeAll(){
+    for (let subscription of this.subscriptions){
+      subscription.unsubscribe();
+    }
+    this.subscriptions = [];
   }
 
 }

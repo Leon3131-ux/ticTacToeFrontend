@@ -96,6 +96,7 @@ export class GameComponent implements OnInit {
   }
 
   private handlePlayerLeave(username: string){
+    this.websocketService.unsubscribeAll();
       this.router.navigate(['/home']);
       this.messageService.add({
         severity: 'warn',
@@ -106,8 +107,14 @@ export class GameComponent implements OnInit {
   }
 
   leave(){
-    this.gameService.leaveGame().subscribe(() => {
+    if(!this.winStatus){
+      this.gameService.leaveGame().subscribe(() => {
+        this.websocketService.unsubscribeAll();
+        this.router.navigate(['/home']);
+      })
+    }else {
+      this.websocketService.unsubscribeAll();
       this.router.navigate(['/home']);
-    })
+    }
   }
 }

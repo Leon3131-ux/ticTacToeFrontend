@@ -4,9 +4,9 @@
 
 export const environment = {
   production: false,
-  api_url: 'ip/api',
+  api_url: 'http://localhost:8080/api',
   generic_error_messages: true,
-  websocket_url: 'ip/websocket',
+  websocket_url: 'http://localhost:8080/websocket',
 };
 
 /*
