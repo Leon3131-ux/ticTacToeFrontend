@@ -15,7 +15,6 @@ export class WebsocketService{
   client = Stomp.over(new SockJS(environment.websocket_url + '?Authorization=' + this.authService.getToken()));
   connecting = false;
   connectingSubject = new Subject();
-  connected = false;
   subscriptions: StompSubscription[] = [];
 
   public subscribe(path: string): Observable<any>{
@@ -31,10 +30,9 @@ export class WebsocketService{
 
   private checkConnection(): Observable<any>{
     return new Observable(observer => {
-      if(!this.connected && !this.connecting){
+      if(!this.client.connected && !this.connecting){
         this.connecting = true;
         this.client.connect({}, () => {
-          this.connected = true;
           this.connecting = false;
           this.connectingSubject.next();
           observer.next();
@@ -43,14 +41,22 @@ export class WebsocketService{
         this.connectingSubject.subscribe(() => {
           observer.next();
         })
-      }else if(this.connected){
+      }else if(this.client.connected){
         observer.next();
       }
     })
   }
 
-  public connect(){
-    this.checkConnection().subscribe(() => {})
+  public connect(): Observable<any>{
+    return new Observable(observer => {
+      if(!this.client.connected){
+        this.checkConnection().subscribe(() => {
+          observer.next();
+        })
+      }else {
+        observer.next();
+      }
+    })
   }
 
   public unsubscribeAll(): Observable<any>{

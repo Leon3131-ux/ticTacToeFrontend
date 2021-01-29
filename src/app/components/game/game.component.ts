@@ -34,22 +34,24 @@ export class GameComponent implements OnInit {
     }, () => {})
     this.route.queryParams.subscribe(params => {
       this.queryParams = params;
-      this.websocketService.subscribe('/move/' + params['inviteCode']).subscribe(move => {
-        this.handleMove(move);
-      })
-      this.websocketService.subscribe('/currentTurn/' + params['inviteCode']).subscribe(usernameDto => {
-        this.handleCurrentTurn(usernameDto.username);
-      })
-      this.websocketService.subscribe('/leave/' + params['inviteCode']).subscribe(usernameDto => {
-        this.handlePlayerLeave(usernameDto.username);
-      })
-      this.websocketService.subscribe('/win/' + params['inviteCode']).subscribe(winDto => {
-        if(winDto.winner){
-          this.winStatus = winDto.winner;
-        }
-        if(winDto.draw){
-          this.winStatus = 'draw';
-        }
+      this.websocketService.unsubscribeAll().subscribe(() => {
+        this.websocketService.subscribe('/move/' + params['inviteCode']).subscribe(move => {
+          this.handleMove(move);
+        })
+        this.websocketService.subscribe('/currentTurn/' + params['inviteCode']).subscribe(usernameDto => {
+          this.handleCurrentTurn(usernameDto.username);
+        })
+        this.websocketService.subscribe('/leave/' + params['inviteCode']).subscribe(usernameDto => {
+          this.handlePlayerLeave(usernameDto.username);
+        })
+        this.websocketService.subscribe('/win/' + params['inviteCode']).subscribe(winDto => {
+          if(winDto.winner){
+            this.winStatus = winDto.winner;
+          }
+          if(winDto.draw){
+            this.winStatus = 'draw';
+          }
+        })
       })
     })
 
@@ -96,28 +98,22 @@ export class GameComponent implements OnInit {
   }
 
   private handlePlayerLeave(username: string){
-    this.websocketService.unsubscribeAll().subscribe(() => {
-      this.router.navigate(['/home']);
-      this.messageService.add({
-        severity: 'warn',
-        summary: 'Game stopped',
-        detail: 'Player ' + username + ' has left',
-        life: 3000
-      });
+    this.router.navigate(['/home']);
+    this.messageService.add({
+      severity: 'warn',
+      summary: 'Game stopped',
+      detail: 'Player ' + username + ' has left',
+      life: 3000
     });
   }
 
   leave(){
     if(!this.winStatus){
       this.gameService.leaveGame().subscribe(() => {
-        this.websocketService.unsubscribeAll().subscribe(() => {
-          this.router.navigate(['/home']);
-        });
+        this.router.navigate(['/home']);
       })
     }else {
-      this.websocketService.unsubscribeAll().subscribe(() => {
-        this.router.navigate(['/home']);
-      });
+      this.router.navigate(['/home']);
     }
   }
 }

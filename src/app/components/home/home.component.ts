@@ -22,17 +22,15 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.gameService.getActiveGame(this.doNothingErrorHandler).subscribe(game => {
       if(game.started){
-        this.webSocketService.unsubscribeAll().subscribe(() => {
-          this.router.navigate(['/game'], {queryParams: {inviteCode: game.inviteCode}});
-        })
+        this.router.navigate(['/game'], {queryParams: {inviteCode: game.inviteCode}});
       }else {
-        this.webSocketService.unsubscribeAll().subscribe(() => {
-          this.router.navigate(['/lobby'], {queryParams: {inviteCode: game.inviteCode}});
-        })
+        this.router.navigate(['/lobby'], {queryParams: {inviteCode: game.inviteCode}});
       }
     },
       () => {})
-    this.webSocketService.connect();
+    this.webSocketService.connect().subscribe(() => {
+      this.webSocketService.unsubscribeAll().subscribe(() => {});
+    });
   }
 
   joinGameForm = new FormGroup({
@@ -42,17 +40,13 @@ export class HomeComponent implements OnInit {
 
   createGame(): void{
     this.gameService.createGame().subscribe(game => {
-      this.webSocketService.unsubscribeAll().subscribe(() => {
-        this.router.navigate(['/lobby'], {queryParams: {inviteCode: game.inviteCode}});
-      })
+      this.router.navigate(['/lobby'], {queryParams: {inviteCode: game.inviteCode}});
     })
   }
 
   joinGame(): void{
     this.gameService.joinGame(this.joinGameForm.getRawValue().inviteCode).subscribe(game => {
-      this.webSocketService.unsubscribeAll().subscribe(() => {
-        this.router.navigate(['/lobby'], {queryParams: {inviteCode: game.inviteCode}});
-      })
+      this.router.navigate(['/lobby'], {queryParams: {inviteCode: game.inviteCode}});
     })
   }
 
