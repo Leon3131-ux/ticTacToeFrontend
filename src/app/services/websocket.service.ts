@@ -49,6 +49,10 @@ export class WebsocketService{
     })
   }
 
+  public connect(){
+    this.checkConnection().subscribe(() => {})
+  }
+
   public unsubscribeAll(): Observable<any>{
     return new Observable(observer => {
       for (let subscription of this.subscriptions){

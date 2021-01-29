@@ -32,6 +32,7 @@ export class HomeComponent implements OnInit {
       }
     },
       () => {})
+    this.webSocketService.connect();
   }
 
   joinGameForm = new FormGroup({
