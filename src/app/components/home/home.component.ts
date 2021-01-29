@@ -50,7 +50,7 @@ export class HomeComponent implements OnInit {
   joinGame(): void{
     this.gameService.joinGame(this.joinGameForm.getRawValue().inviteCode).subscribe(game => {
       this.webSocketService.unsubscribeAll().subscribe(() => {
-        this.router.navigate(['/game'], {queryParams: {inviteCode: game.inviteCode}});
+        this.router.navigate(['/lobby'], {queryParams: {inviteCode: game.inviteCode}});
       })
     })
   }
