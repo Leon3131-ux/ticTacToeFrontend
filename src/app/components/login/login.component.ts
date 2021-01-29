@@ -13,7 +13,7 @@ export class LoginComponent implements OnInit {
 
   constructor(private loginService: LoginService,
               private authService: AuthService,
-              private router: Router) { }
+              public router: Router) { }
 
   loginForm = new FormGroup({
     username: new FormControl(),
@@ -29,6 +29,10 @@ export class LoginComponent implements OnInit {
       this.authService.setToken(data.headers.get('Authorization'));
       this.router.navigate(['/home']);
     })
+  }
+
+  navigateToSignUp(){
+    this.router.navigate(['/singUp']);
   }
 
 

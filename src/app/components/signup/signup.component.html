@@ -1,16 +1,16 @@
 <div class="container p-">
-  <form [formGroup]="loginForm" class="p-d-flex p-ac-center p-flex-column">
+  <form [formGroup]="signUpForm" class="p-d-flex p-ac-center p-flex-column">
     <div class="p-d-flex p-jc-center p-mt-2">
       <input formControlName="username" pInputText type="text" placeholder="username">
     </div>
     <div class="p-d-flex p-jc-center p-m-2">
       <input formControlName="password" pPassword type="password" [feedback]="false" placeholder="password">
     </div>
-    <div class="p-d-flex p-jc-center">
-      <p-button label="login" (onClick)="login()"></p-button>
+    <div class="p-d-flex p-jc-center p-m-2">
+      <input formControlName="passwordConfirm" pPassword type="password" [feedback]="false" placeholder="confirm password">
     </div>
     <div class="p-d-flex p-jc-center">
-      <p-button class="p-mt-2" label="sign up" (onClick)="navigateToSignUp()"></p-button>
+      <p-button label="sign up" (onClick)="signUp()"></p-button>
     </div>
   </form>
 </div>

@@ -27,9 +27,13 @@ import {DoNothingErrorHandler} from './errorHandler/do-nothing-error-handler';
 import {ToastModule} from 'primeng/toast';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {LoggedInGuard} from './guards/logged-in.guard';
+import {SignUpErrorHandler} from './errorHandler/sign-up-error-handler';
+import {SignupComponent} from './components/signup/signup.component';
+import {SignupModule} from './components/signup/signup.module';
 
 const appRoutes: Routes = [
   {path: 'login', component: LoginComponent},
+  {path: 'singUp', component: SignupComponent},
   {path: 'home', component: HomeComponent, canActivate: [LoggedInGuard]},
   {path: 'lobby', component: LobbyComponent, canActivate: [LoggedInGuard]},
   {path: 'game', component: GameComponent, canActivate: [LoggedInGuard]},
@@ -53,6 +57,7 @@ const appRoutes: Routes = [
     LobbyModule,
     HomeModule,
     GameModule,
+    SignupModule,
     ToastModule
   ],
   providers: [
@@ -64,6 +69,7 @@ const appRoutes: Routes = [
     ValidationErrorHandler,
     ActiveGameErrorHandler,
     DoNothingErrorHandler,
+    SignUpErrorHandler,
     MessageService,
     httpInterceptProviders
   ],

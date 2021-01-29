@@ -4,18 +4,18 @@ import {HttpErrorResponse} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 
 @Injectable()
-export class LoginErrorHandler implements HttpResponseErrorHandler{
+export class SignUpErrorHandler implements HttpResponseErrorHandler{
   constructor(
     private messageService: MessageService
   ) {}
 
   matches(error: HttpErrorResponse): boolean {
-    if(error.status === 403){
+    if(error.status === 400){
       return true;
     }
   }
 
   handle(error: HttpErrorResponse) {
-    this.messageService.add({severity: 'error', summary: 'Wrong credentials', life: 5000});
+    this.messageService.add({severity: 'error', summary: 'Invalid credentials', life: 5000});
   }
 }

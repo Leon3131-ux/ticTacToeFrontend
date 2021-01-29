@@ -28,8 +28,9 @@ export class LobbyComponent implements OnInit {
         this.handlePlayerJoin(usernameDto.username)
       });
       this.websocketService.subscribe('/launch/' + params['inviteCode']).subscribe(() => {
-        this.websocketService.unsubscribeAll();
-        this.router.navigate(['/game'], {queryParams: {inviteCode: this.game.inviteCode}})
+        this.websocketService.unsubscribeAll().subscribe(() => {
+          this.router.navigate(['/game'], {queryParams: {inviteCode: this.game.inviteCode}});
+        });
       })
       this.websocketService.subscribe('/leave/' + params['inviteCode']).subscribe(usernameDto => {
         this.handlePlayerLeave(usernameDto.username);
@@ -37,8 +38,9 @@ export class LobbyComponent implements OnInit {
     })
     this.gameService.getActiveGame(this.activeGameErrorHandler).subscribe(game => {
         if(game.started){
-          this.websocketService.unsubscribeAll();
-          this.router.navigate(['/game'], {queryParams: {inviteCode: game.inviteCode}});
+          this.websocketService.unsubscribeAll().subscribe(() => {
+            this.router.navigate(['/game'], {queryParams: {inviteCode: game.inviteCode}});
+          });
         }else {
           this.game = game;
         }
@@ -50,23 +52,26 @@ export class LobbyComponent implements OnInit {
 
   leave(){
     this.gameService.leaveGame().subscribe(() => {
-      this.websocketService.unsubscribeAll();
-      this.router.navigate(['/home'])
+      this.websocketService.unsubscribeAll().subscribe(() => {
+        this.router.navigate(['/home']);
+      });
     })
   }
 
   start(){
     this.gameService.startGame().subscribe(() => {
-        this.websocketService.unsubscribeAll();
-      this.router.navigate(['/game'], {queryParams: {inviteCode: this.game.inviteCode}});
+        this.websocketService.unsubscribeAll().subscribe(() => {
+          this.router.navigate(['/game'], {queryParams: {inviteCode: this.game.inviteCode}});
+        });
     },
       () =>{})
   }
 
   private handlePlayerLeave(username: string){
     if(username === this.game.hostName){
-      this.websocketService.unsubscribeAll();
-      this.router.navigate(['/home']);
+      this.websocketService.unsubscribeAll().subscribe(() => {
+        this.router.navigate(['/home']);
+      });
       this.messageService.add({
         severity: 'warn',
         summary: 'Game stopped',

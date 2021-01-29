@@ -49,15 +49,14 @@ export class WebsocketService{
     })
   }
 
-  public send(path: string, object: any){
-    this.client.send(path,{}, JSON.stringify(object));
-  }
-
-  public unsubscribeAll(){
-    for (let subscription of this.subscriptions){
-      subscription.unsubscribe();
-    }
-    this.subscriptions = [];
+  public unsubscribeAll(): Observable<any>{
+    return new Observable(observer => {
+      for (let subscription of this.subscriptions){
+        subscription.unsubscribe();
+      }
+      this.subscriptions = [];
+      observer.next();
+    })
   }
 
 }
